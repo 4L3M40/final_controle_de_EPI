@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Editar Usuário — EPI Manager{% endblock %}
+{% block content %}
+<div class="grid">
+    <div class="card">
+        <div class="card-inner">
+            <h2 style="margin:0 0 12px">Editar Usuário</h2>
+            <form method="post" class="form" novalidate>
+                {% csrf_token %}
+                <div class="row">
+                    <div>
+                        <label>Usuário</label>
+                        {{ form.username }}
+                        {% for e in form.username.errors %}<div class="hint" style="color:#ff9f9f">{{ e }}</div>{% endfor %}
+                    </div>
+                    <div>
+                        <label>Email</label>
+                        {{ form.email }}
+                        {% for e in form.email.errors %}<div class="hint" style="color:#ff9f9f">{{ e }}</div>{% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <label>Perfil</label>
+                        {{ form.perfil }}
+                        {% for e in form.perfil.errors %}<div class="hint" style="color:#ff9f9f">{{ e }}</div>{% endfor %}
+                    </div>
+                    <div>
+                        <label>Ativo</label>
+                        {{ form.is_active }}
+                        {% for e in form.is_active.errors %}<div class="hint" style="color:#ff9f9f">{{ e }}</div>{% endfor %}
+                    </div>
+                </div>
+                <div class="actions">
+                    <a href="{% url 'usuarios:list' %}" class="btn">Cancelar</a>
+                    <button class="btn primary" type="submit">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

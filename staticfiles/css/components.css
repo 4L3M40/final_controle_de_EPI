@@ -1,0 +1,34 @@
+.table .actions {
+    display: flex;
+    gap: 8px;
+}
+.tag-success {
+    background: rgba(115,255,207,.15);
+    color: #73ffcf;
+    border: 1px solid rgba(115,255,207,.3);
+}
+.tag-muted {
+    background: rgba(174,182,217,.15);
+    color: #c9d0f0;
+    border: 1px solid rgba(174,182,217,.2);
+}
+.pill {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+}
+.user-actions {
+    display: flex;
+    flex-direction: row !important; /* Garante disposição horizontal */
+    gap: 12px;
+    align-items: center;
+    flex-wrap: nowrap; /* Impede quebra de linha */
+}
+.user-actions span {
+    color: var(--muted);
+    font-size: 0.9rem;
+}

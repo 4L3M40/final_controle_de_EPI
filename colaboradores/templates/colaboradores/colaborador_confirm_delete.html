@@ -1,17 +1,11 @@
+
 {% extends "base.html" %}
 {% block title %}Excluir Colaborador{% endblock %}
 {% block content %}
-  <div class="grid">
-    <div class="card">
-      <div class="card-inner">
-        <h2 style="margin:0 0 12px">Confirmar exclusão</h2>
-        <p>Tem certeza de que deseja excluir <strong>{{ object.nome }}</strong> ({{ object.matricula }})?</p>
-        <form method="post">
-          {% csrf_token %}
-          <a href="{% url 'colaboradores:list' %}" class="btn">Cancelar</a>
-          <button class="btn danger" type="submit">Excluir</button>
-        </form>
-      </div>
-    </div>
-  </div>
+<h1>Confirmar exclusão</h1>
+<p>Deseja realmente excluir <strong>{{ obj }}</strong>?</p>
+<form method="post">{% csrf_token %}
+  <button class="btn btn-danger" type="submit">Excluir</button>
+  <a class="btn" href="{% url 'colaboradores:list' %}">Cancelar</a>
+</form>
 {% endblock %}

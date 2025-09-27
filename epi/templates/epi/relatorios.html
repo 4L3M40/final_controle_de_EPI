@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Relatórios (AND){% endblock %}
+{% block content %}
+<h1 class="h4 my-3">Relatórios — Filtro AND</h1>
+<form method="get" class="row g-2 mb-3">
+  <div class="col-md-4">
+    <input class="form-control" type="text" name="nome" placeholder="Nome do colaborador..." value="{{ nome }}">
+  </div>
+  <div class="col-md-4">
+    <input class="form-control" type="text" name="epi" placeholder="Nome do equipamento..." value="{{ epi }}">
+  </div>
+  <div class="col-md-3">
+    <select class="form-select" name="status">
+      <option value="">— Status —</option>
+      {% for value,label in status_choices %}
+        <option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-1 d-grid">
+    <button class="btn btn-primary" type="submit">Filtrar</button>
+  </div>
+</form>
+
+<table class="table table-sm align-middle">
+  <thead>
+    <tr>
+      <th>Colaborador</th>
+      <th>Equipamento</th>
+      <th>Qtd</th>
+      <th>Empréstimo</th>
+      <th>Prev. Devolução</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in itens %}
+      <tr>
+        <td>{{ i.emprestimo.colaborador.nome }}</td>
+        <td>{{ i.epi.nome }}</td>
+        <td>{{ i.quantidade }}</td>
+        <td>{{ i.emprestimo.criado_em|date:"d/m/Y H:i" }}</td>
+        <td>{{ i.emprestimo.previsao_devolucao|date:"d/m/Y H:i" }}</td>
+        <td>
+          {{ i.get_status_display }}
+          {% if i.devolvido_em %}<small class="text-muted">({{ i.devolvido_em|date:"d/m/Y H:i" }})</small>{% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6">Nenhum registro encontrado.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

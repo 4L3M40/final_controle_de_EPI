@@ -12,6 +12,20 @@
             "name": "Imersao 30-08",
             "database": "epi_simplificado",
             "username": "root"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "imersao 30-08",
+            "database": "epi_top",
+            "username": "root"
         }
     ]
 }

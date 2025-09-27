@@ -1,15 +1,13 @@
+
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponseRedirect
-from django.conf import settings
-from django.conf.urls.static import static
+from dashboard.dashboard_views import dashboard_view
 
 urlpatterns = [
+    path("usuarios/", include("usuarios.urls", namespace="usuarios")),
     path("admin/", admin.site.urls),
+    path("", dashboard_view, name="dashboard_home"),
+    path("dashboard/", dashboard_view, name="dashboard"),
     path("colaboradores/", include("colaboradores.urls", namespace="colaboradores")),
-    path("", lambda r: HttpResponseRedirect("/colaboradores/")),
+    path("", include("epi.urls", namespace="epi")),
 ]
-
-# Servir arquivos estáticos em modo DEBUG
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.BASE_DIR / "static")

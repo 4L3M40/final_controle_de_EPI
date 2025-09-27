@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.core.validators import RegexValidator
 
@@ -7,12 +8,7 @@ class Colaborador(models.Model):
         max_length=11,
         unique=True,
         help_text="Apenas números",
-        validators=[
-            RegexValidator(
-                regex=r'^\d{11}$',
-                message='O CPF deve conter exatamente 11 dígitos numéricos.'
-            )
-        ]
+        validators=[RegexValidator(regex=r'^\d{11}$', message='O CPF deve conter exatamente 11 dígitos numéricos.')]
     )
     matricula = models.CharField(max_length=30, unique=True)
     ativo = models.BooleanField(default=True)

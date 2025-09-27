@@ -1,0 +1,30 @@
+
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmar exclusão</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        Esta ação não pode ser desfeita. Deseja realmente excluir este registro?
+      </div>
+      <div class="modal-footer">
+        <form id="deleteForm" method="post" action="#">
+          {% csrf_token %}
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-danger">Excluir</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener('show.bs.modal', function (event) {
+  const button = event.relatedTarget;
+  if(!button) return;
+  const url = button.getAttribute('data-delete-url');
+  const form = document.getElementById('deleteForm');
+  if(form && url){ form.setAttribute('action', url); }
+});
+</script>

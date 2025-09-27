@@ -1,41 +1,48 @@
 {% extends "base.html" %}
-{% block title %}{% if view.object %}Editar Colaborador{% else %}Novo Colaborador{% endif %}{% endblock %}
+{% block title %}{% if is_create %}Novo{% else %}Editar{% endif %} Colaborador{% endblock %}
+
 {% block content %}
-  <div class="grid">
-    <div class="card">
-      <div class="card-inner">
-        <h2 style="margin:0 0 12px">{% if view.object %}Editar{% else %}Novo{% endif %} Colaborador</h2>
-        <form method="post" class="form" novalidate>
-          {% csrf_token %}
-          <div class="row">
-            <div>
-              <label>Nome</label>
-              {{ form.nome }}
-              {% for e in form.nome.errors %}<div class="hint" style="color:#ff9f9f">{{ e }}</div>{% endfor %}
-            </div>
-            <div>
-              <label>CPF (11 dígitos)</label>
-              {{ form.cpf }}
-              {% for e in form.cpf.errors %}<div class="hint" style="color:#ff9f9f">{{ e }}</div>{% endfor %}
-            </div>
-          </div>
-          <div class="row">
-            <div>
-              <label>Matrícula</label>
-              {{ form.matricula }}
-              {% for e in form.matricula.errors %}<div class="hint" style="color:#ff9f9f">{{ e }}</div>{% endfor %}
-            </div>
-            <div>
-              <label>Ativo</label>
-              {{ form.ativo }}
-            </div>
-          </div>
-          <div class="actions">
-            <a href="{% url 'colaboradores:list' %}" class="btn">Cancelar</a>
-            <button class="btn primary" type="submit">Salvar</button>
-          </div>
-        </form>
-      </div>
-    </div>
+<h1>{% if is_create %}Novo{% else %}Editar{% endif %} Colaborador</h1>
+
+{# Resumo de erros amigável #}
+{% if form.errors %}
+  <div class="form-errors">
+    <strong>Verifique os erros abaixo:</strong>
+    <ul>
+      {% for field in form %}
+        {% for error in field.errors %}
+          <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
   </div>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <div class="actions">
+    <button class="btn" type="submit">Salvar</button>
+    <a class="btn btn-danger" href="{% url 'colaboradores:list' %}">Cancelar</a>
+  </div>
+</form>
+
+{# Foco no primeiro campo (ou no primeiro com erro) #}
+<script>
+  (function () {
+    const err = document.querySelector('.form-errors');
+    if (err) {
+      // tenta focar no primeiro input com aria-invalid (Django adiciona no widget) ou no primeiro input
+      const firstErr = document.querySelector('[aria-invalid="true"], input, select, textarea');
+      if (firstErr) firstErr.focus();
+    } else {
+      const first = document.querySelector('form input, form select, form textarea');
+      if (first) first.focus();
+    }
+  })();
+</script>
 {% endblock %}

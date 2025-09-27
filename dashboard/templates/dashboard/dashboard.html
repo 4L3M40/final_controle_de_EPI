@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<div class="cards" style="display:flex;gap:1rem;flex-wrap:wrap;">
+  <div class="card"><h3>Pendentes de Devolução</h3><p style="font-size:2rem;">{{ pendencias|default:0 }}</p></div>
+  <div class="card"><h3>Empréstimos Hoje</h3><p style="font-size:2rem;">{{ emprestimos_hoje|default:0 }}</p></div>
+</div>
+<p style="margin-top:1rem;">Use o menu para navegar: cadastre colaboradores e EPIs, crie empréstimos e consulte relatórios.</p>
+{% endblock %}

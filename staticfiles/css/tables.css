@@ -1,0 +1,3 @@
+.table tbody tr{border-radius:14px;overflow:hidden}
+.table tbody tr td:first-child{border-top-left-radius:14px;border-bottom-left-radius:14px}
+.table tbody tr td:last-child{border-top-right-radius:14px;border-bottom-right-radius:14px}
