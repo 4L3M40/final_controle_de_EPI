@@ -1,13 +1,36 @@
-# EPI MVP — Etapa 2 (Django)
+# Sistema de Controle de EPIs (Django)
 
-CRUD de **Colaboradores** com persistência em **MySQL**, desenvolvido em **Python/Django**.
+MVP completo com:
+- CRUD de **Colaboradores**
+- CRUD de **EPIs** com estoque simples e CA (nº e validade)
+- **Empréstimos** com 1..N itens (quantidade, status)
+- **Devolução** total/parcial (status por item) com recomposição automática de estoque para *Devolvido*
+- **Relatório** por colaborador (nome, equipamento, datas e status)
+- Dashboard com contadores básicos
 
-## 📦 Tecnologias
-- Django 4.2 (LTS)
-- MySQL 8.0
-- mysqlclient
-- Bootstrap 5 (CDN)
+## Como rodar (dev)
+```bash
+pip install -r requirements.txt
+cp .env.example .env  # ajuste se usar MySQL; por padrão SQLite roda sem mudanças
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+```
 
+Acesse: http://127.0.0.1:8000/
+
+## Rotas principais
+- `/` (Dashboard)
+- `/colaboradores/` (CRUD)
+- `/epis/` (CRUD)
+- `/emprestimos/` (listagem e acesso ao editar/devolver)
+- `/emprestimos/novo/`
+- `/relatorios/colaborador/`
+
+## Observações
+- Campos de **Devolução** e **Observação** só aparecem quando o status do item é *Devolvido/Danificado/Perdido*.
+- Em **criação** de empréstimo, os status disponíveis são: *Emprestado*, *Em Uso* e *Fornecido*.
+- Regras de negócio incluídas: quantidade>0, estoque suficiente, devolução recompõe estoque, empréstimo fecha quando não há pendências.
   ---
 
 ## 🚀 Como executar (VS Code)
