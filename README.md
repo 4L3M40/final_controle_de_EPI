@@ -8,6 +8,8 @@ MVP completo com:
 - **Relatório** por colaborador (nome, equipamento, datas e status)
 - Dashboard com contadores básicos
 
+  ---
+  
 ## Como rodar (dev)
 ```bash
 pip install -r requirements.txt
@@ -16,8 +18,9 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
-
 Acesse: http://127.0.0.1:8000/
+
+---
 
 ## Rotas principais
 - `/` (Dashboard)
@@ -26,12 +29,15 @@ Acesse: http://127.0.0.1:8000/
 - `/emprestimos/` (listagem e acesso ao editar/devolver)
 - `/emprestimos/novo/`
 - `/relatorios/colaborador/`
+  
+---
 
 ## Observações
 - Campos de **Devolução** e **Observação** só aparecem quando o status do item é *Devolvido/Danificado/Perdido*.
 - Em **criação** de empréstimo, os status disponíveis são: *Emprestado*, *Em Uso* e *Fornecido*.
 - Regras de negócio incluídas: quantidade>0, estoque suficiente, devolução recompõe estoque, empréstimo fecha quando não há pendências.
-  ---
+
+---
 
 ## 🚀 Como executar (VS Code)
 
@@ -60,31 +66,35 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 ---
+
 ## 5) Migrações
 ```
 python manage.py makemigrations colaboradores
 python manage.py migrate
 ```
 ---
+
 ## 6) Rodar
 ```python manage.py runserver
 # Abra http://127.0.0.1:8000/ (redireciona para /colaboradores/)
 ```
----
-
 > Obs.: o banco configurado no `.env` (DB_NAME=epi_simplificado) deve existir em seu MySQL.
+
+---
 
 ## 👤 Acesso ao admin (opcional)
 ```bash
 python manage.py createsuperuser
 # depois acesse: http://127.0.0.1:8000/admin/
 ```
+---
 
 ## 🧭 Rotas principais
 - `GET /colaboradores/` — lista com paginação e busca
 - `GET /colaboradores/novo/` — formulário de criação
 - `GET /colaboradores/<id>/editar/` — edição
 - `GET /colaboradores/<id>/excluir/` — confirmação de exclusão
+---
 
 ## 🗃️ Diagrama ER (Mermaid)
 ```mermaid
@@ -99,6 +109,7 @@ erDiagram
       DATETIME atualizado_em
     }
 ```
+---
 
 ## 🧩 Caso de Uso (Mermaid)
 ```mermaid
@@ -139,9 +150,11 @@ flowchart LR
 ---
 
 ## 2) DER 
+
 <img width="1045" height="842" alt="Image" src="https://github.com/user-attachments/assets/72d16f87-cfce-46c9-93fe-622e7ad59173" />
 
 --- 
+
 ## 3) Diagrama de Casos de Uso
 
 ```mermaid
@@ -212,6 +225,7 @@ RNF05 — Manutenibilidade: arquitetura em camadas (API, serviço, persistência
 RNF06 — Portabilidade: MySQL 8.0+, compatível com Workbench.
 
 ---
+
 ## 6) Wireframes (mínimos)
 
 ```text
@@ -280,7 +294,7 @@ RB05: status do empréstimo vai para FECHADO quando todos os itens forem devolvi
 ✅ Registrar devolução total/parcial e recompor estoque.
 ✅ Listar pendências por colaborador e fechar empréstimo quando não houver mais pendências.
 ✅ Exportar listagens em CSV (opcional).
-#
+
 
 
 
