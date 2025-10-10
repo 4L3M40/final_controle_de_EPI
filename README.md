@@ -151,7 +151,7 @@ flowchart LR
 
 ## 2) DER 
 
-<img width="1045" height="842" alt="Image" src="https://github.com/user-attachments/assets/72d16f87-cfce-46c9-93fe-622e7ad59173" />
+<img width="998" height="802" alt="Image" src="https://github.com/user-attachments/assets/f0fc08f0-3259-4d8f-94a0-1a48f122000d" />
 
 --- 
 
