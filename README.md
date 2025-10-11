@@ -295,6 +295,147 @@ RB05: status do empréstimo vai para FECHADO quando todos os itens forem devolvi
 ✅ Listar pendências por colaborador e fechar empréstimo quando não houver mais pendências.
 ✅ Exportar listagens em CSV (opcional).
 
+---
+## 🧪 Testes (pytest + Django)
 
+Este projeto usa **pytest** com **pytest-django** para testes **unitários** e **de integração**.
 
+### 📂 Estrutura dos testes
+```
+tests/
+├─ unit/                      # Testes unitários (modelo, validações, regras de negócio)
+│  ├─ test_models_colaborador_unit.py
+│  ├─ test_models_emprestimos_unit.py
+│  └─ test_models_epi_ca_unit.py
+└─ integration/               # Testes de integração (views, rotas, relatórios)
+   ├─ test_colaboradores_integration.py
+   ├─ test_emprestimos_integration.py
+   ├─ test_epi_integration.py
+   ├─ test_epi_ca_integration.py
+   └─ test_routes_integration.py
+```
 
+### ⚙️ `pytest.ini`
+```ini
+[pytest]
+DJANGO_SETTINGS_MODULE = epi_mvp.settings
+django_find_project = true
+testpaths = tests
+python_files = test_*.py *_test.py
+addopts = -q
+filterwarnings =
+    ignore::django.utils.deprecation.RemovedInDjango50Warning
+    ignore::django.utils.deprecation.RemovedInDjango51Warning
+```
+
+> **Observação:** Os testes rodam por padrão com o banco configurado em `epi_mvp.settings`.  
+> Para **testes**, é recomendável deixar **SQLite** (rápido e isolado).  
+> Em produção/dev, use **MySQL** via `.env`.
+
+---
+
+### ▶️ Como executar
+
+#### Rodar todos os testes
+```bash
+pytest -vv
+```
+
+#### Mostrar apenas a coleta
+```bash
+pytest --collect-only -q
+```
+
+#### Rodar com cobertura
+```bash
+python -m pip install coverage
+python -m coverage run -m pytest
+python -m coverage report -m
+python -m coverage html
+# abrir htmlcov/index.html no navegador
+```
+
+---
+
+### 🧩 Convenções (o que é testado)
+
+**Unitários (`tests/unit/`):**
+- Modelos / Regras de negócio (ex.: validação de CPF, quantidade > 0, recomposição de estoque).  
+- **EPI – CA:** cobre validade expirada e válida.
+
+**Integração (`tests/integration/`):**
+- Views / Rotas (CRUD de colaboradores, EPIs, CSVs, dashboard e relatórios).  
+- Fluxos completos (criar empréstimo → reduzir estoque → devolver → recompor estoque).
+
+---
+
+### 🧱 Exemplos de testes
+
+#### Unitário — validade de CA
+```python
+@pytest.mark.django_db
+def test_formulario_epi_ca_expirado_invalido_se_existir():
+    ...
+```
+
+#### Unitário — regra de negócio (estoque)
+```python
+@pytest.mark.django_db
+def test_excluir_item_pendente_restaura_estoque():
+    ...
+```
+
+#### Integração — CRUD EPI
+```python
+@pytest.mark.django_db
+def test_criacao_ok(client):
+    data = {"codigo":"LUV-123", "nome":"Luva", "tamanho":"M", "estoque":5, "ativo":True}
+    resp = client.post(reverse("epi:create"), data, follow=True)
+    assert resp.status_code == 200
+    assert Epi.objects.filter(codigo="LUV-123").exists()
+```
+
+---
+
+### ⚙️ CI (GitHub Actions) — opcional
+```yaml
+name: tests
+on: [push, pull_request]
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-django coverage
+      - name: Run tests with coverage
+        run: |
+          python -m coverage run -m pytest -vv
+          python -m coverage report -m
+```
+
+---
+
+### 📊 Evidências (exemplo real)
+
+**Coleta:**
+```
+pytest --collect-only -q
+# total: 41 testes
+```
+
+**Execução:**
+```
+================================================================== 41 passed in 2.03s ==================================================================
+```
+
+**Cobertura:**
+```
+TOTAL 851 statements, 82% cobertura
+```
