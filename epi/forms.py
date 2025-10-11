@@ -27,6 +27,24 @@ class EpiForm(forms.ModelForm):
             "ativo": forms.CheckboxInput(attrs={"class": "form-check-input"}),
         }
 
+    def clean_ca_validade(self):
+        """
+        Garante que o CA informado não esteja vencido (data no passado).
+        """
+        ca_validade = self.cleaned_data.get("ca_validade")
+        if ca_validade and ca_validade < timezone.now().date():
+            raise forms.ValidationError("O CA está vencido. Informe uma data vigente (hoje ou futura).")
+        return ca_validade
+
+    def clean_estoque(self):
+        """
+        Impede que o estoque seja negativo.
+        """
+        estoque = self.cleaned_data.get("estoque")
+        if estoque is not None and estoque < 0:
+            raise forms.ValidationError("O estoque não pode ser negativo.")
+        return estoque
+
 
 # -----------------------------------------
 # Empréstimo (cabeçalho)
@@ -42,12 +60,12 @@ class EmprestimoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # guarda o valor original para permitir manter data passada ao editar
         # Desabilita campos ao editar
         if self.instance and getattr(self.instance, 'pk', None):
             self.fields['colaborador'].disabled = True
             self.fields['previsao_devolucao'].disabled = True
 
+        # guarda o valor original para permitir manter data passada ao editar
         self._orig_prev = None
         if self.instance and getattr(self.instance, "pk", None):
             self._orig_prev = self.instance.previsao_devolucao

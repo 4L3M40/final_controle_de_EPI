@@ -19,7 +19,6 @@ def dashboard_view(request):
         PENDENTES = ['EMPRESTADO', 'EM_USO']
         pendencias = EmprestimoItem.objects.filter(devolvido_em__isnull=True, status__in=PENDENTES).count()
     except Exception:
-        # Se o app ainda não estiver migrado/instalado, mantém contadores zerados
         pass
 
     return render(request, "dashboard/dashboard.html", {
